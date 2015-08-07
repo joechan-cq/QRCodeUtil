@@ -64,7 +64,8 @@ public class LocalPictureUtil {
         if (Build.VERSION.SDK_INT < 19) {
             innerIntent.setAction(Intent.ACTION_GET_CONTENT);
         } else {
-            innerIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+            innerIntent.setAction(Intent.ACTION_GET_CONTENT);
+            //innerIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         }
         innerIntent.setType("image/*");
         Intent wrapperIntent = Intent.createChooser(innerIntent, "请选择二维码图片");
@@ -111,6 +112,11 @@ public class LocalPictureUtil {
     public static String receiveIntent(Context context, Intent data) {
         String[] proj = {MediaStore.Images.Media.DATA};
         // 获取选中图片的路径
+        String uri = data.getData().toString();
+        if (uri.startsWith("file://")) {
+            uri = uri.substring(7);
+            return uri;
+        }
         Cursor cursor = context.getContentResolver().query(data.getData(), proj, null, null, null);
         String photo_path = "";
         if (cursor.moveToFirst()) {

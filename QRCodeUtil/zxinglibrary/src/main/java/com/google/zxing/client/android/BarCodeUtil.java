@@ -139,7 +139,7 @@ public class BarCodeUtil {
     }
 
     /**
-     * 解析二维码，得到String
+     * 解析二维码，得到String\
      *
      * @param imgpath 本地二维码文件的地址
      * @return
