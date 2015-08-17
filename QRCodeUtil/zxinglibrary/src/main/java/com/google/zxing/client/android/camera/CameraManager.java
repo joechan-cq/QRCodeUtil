@@ -42,8 +42,8 @@ public final class CameraManager {
 
     private static final int MIN_FRAME_WIDTH = 240;
     private static final int MIN_FRAME_HEIGHT = 240;
-    private static final int MAX_FRAME_WIDTH = 720; // = 5/8 * 1920
-    private static final int MAX_FRAME_HEIGHT = 480; // = 5/8 * 1080
+    private static final int MAX_FRAME_WIDTH = 900; // = 5/8 * 1440
+    private static final int MAX_FRAME_HEIGHT = 1600; // = 5/8 * 2560
 
     private final Context context;
     private final CameraConfigurationManager configManager;
@@ -218,11 +218,17 @@ public final class CameraManager {
                 return null;
             }
 
-            int width = findDesiredDimensionInRange(screenResolution.x, MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
-            int height = findDesiredDimensionInRange(screenResolution.y, MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
+            /*int width = findDesiredDimensionInRange(screenResolution.x, MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
+            int height = findDesiredDimensionInRange(screenResolution.y, MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);*/
+            //适配不同屏幕大小
+            int width = screenResolution.x * 5 / 8;
+            int height = width;
 
+            //位置
             int leftOffset = (screenResolution.x - width) / 2;
             int topOffset = (screenResolution.y - height) / 4;
+
+            //绿色的预览框大小
             framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
         }
         return framingRect;
@@ -263,10 +269,11 @@ public final class CameraManager {
 //            rect.top = rect.top * cameraResolution.y / screenResolution.y;
 //            rect.bottom = rect.bottom * cameraResolution.y / screenResolution.y;
 
-            rect.left = rect.left * cameraResolution.y / screenResolution.x;
-            rect.right = rect.right * cameraResolution.y / screenResolution.x;
-            rect.top = rect.top * cameraResolution.x / screenResolution.y;
-            rect.bottom = rect.bottom * cameraResolution.x / screenResolution.y;
+            //实际扫描区域大小
+            rect.left = (rect.left * cameraResolution.y / screenResolution.x) - screenResolution.x * 1 / 10;
+            rect.top = (rect.top * cameraResolution.x / screenResolution.y) - screenResolution.x * 1 / 10;
+            rect.right = (rect.right * cameraResolution.y / screenResolution.x) + screenResolution.x * 1 / 10;
+            rect.bottom = (rect.bottom * cameraResolution.x / screenResolution.y) + screenResolution.x * 1 / 10;
             framingRectInPreview = rect;
         }
         return framingRectInPreview;
