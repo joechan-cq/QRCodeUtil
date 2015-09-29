@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             String result = data.getStringExtra(CaptureActivity.RESULTKEY);
             resultTextview.setText(result);
         }
-        if (requestCode == 0xee && resultCode==Activity.RESULT_OK) {
+        if (requestCode == 0xee && resultCode == Activity.RESULT_OK) {
             String codePath = LocalPictureUtil.receiveIntent(this, data);
             System.out.println("joe=========path" + codePath);
             String result = BarCodeUtil.decodeQRImage(codePath);

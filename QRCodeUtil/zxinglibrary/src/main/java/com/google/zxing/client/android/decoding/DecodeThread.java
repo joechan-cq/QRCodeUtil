@@ -84,7 +84,7 @@ final class DecodeThread extends Thread {
 //      }
 //    }
         if (decodeFormats == null || decodeFormats.isEmpty()) {
-            decodeFormats = new Vector<BarcodeFormat>();
+            decodeFormats = new Vector<>();
             decodeFormats.addAll(DecodeFormatManager.AZTEC_FORMATS);
             decodeFormats.addAll(DecodeFormatManager.INDUSTRIAL_FORMATS);
             decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);

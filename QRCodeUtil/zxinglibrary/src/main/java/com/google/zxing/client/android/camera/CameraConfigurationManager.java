@@ -26,8 +26,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
-import java.lang.reflect.Method;
-
 /**
  * A class which deals with reading, parsing, and setting the camera parameters which are used to
  * configure the camera hardware.
@@ -74,35 +72,6 @@ final class CameraConfigurationManager {
         cameraResolution = CameraConfigurationUtils.findBestPreviewSizeValue(parameters, new Point(width, height));
     }
 
-    private static Point findBestPreviewSizeValue(Camera.Parameters parameters,
-                                                  Point screenResolution,
-                                                  boolean portrait) {
-        Point bestSize = null;
-        int diff = Integer.MAX_VALUE;
-        for (Camera.Size supportedPreviewSize : parameters.getSupportedPreviewSizes()) {
-            int pixels = supportedPreviewSize.height * supportedPreviewSize.width;
-            if (pixels < MIN_PREVIEW_PIXELS || pixels > MAX_PREVIEW_PIXELS) {
-                continue;
-            }
-            int supportedWidth = portrait ? supportedPreviewSize.height : supportedPreviewSize.width;
-            int supportedHeight = portrait ? supportedPreviewSize.width : supportedPreviewSize.height;
-            int newDiff = Math.abs(screenResolution.x * supportedHeight - supportedWidth * screenResolution.y);
-            if (newDiff == 0) {
-                bestSize = new Point(supportedWidth, supportedHeight);
-                break;
-            }
-            if (newDiff < diff) {
-                bestSize = new Point(supportedWidth, supportedHeight);
-                diff = newDiff;
-            }
-        }
-        if (bestSize == null) {
-            Camera.Size defaultSize = parameters.getPreviewSize();
-            bestSize = new Point(defaultSize.width, defaultSize.height);
-        }
-        return bestSize;
-    }
-
     void setDesiredCameraParameters(Camera camera, boolean safeMode) {
         Camera.Parameters parameters = camera.getParameters();
 
@@ -138,23 +107,6 @@ final class CameraConfigurationManager {
             cameraResolution.y = afterSize.height;
         }
         camera.setDisplayOrientation(90);
-        //  setDisplayOrientation(camera, 90);
-    }
-
-    protected void setDisplayOrientation(Camera camera, int angle) {
-
-        Method downPolymorphic;
-
-        try {
-
-            downPolymorphic = camera.getClass().getMethod("setDisplayOrientation", new Class[]{int.class});
-
-            if (downPolymorphic != null)
-                downPolymorphic.invoke(camera, new Object[]{angle});
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-
     }
 
     Point getCameraResolution() {
