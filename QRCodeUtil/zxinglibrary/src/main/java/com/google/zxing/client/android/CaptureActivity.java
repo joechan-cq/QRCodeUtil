@@ -98,6 +98,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.capture);
 
+		setTitle("音量键控制闪光灯");
         hasSurface = false;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
