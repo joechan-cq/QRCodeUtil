@@ -10,4 +10,5 @@
 1、封装好CaptureActivity类，直接调用即可进行二维码扫描，使用音量键+-控制闪光灯的开关。
 2、封装好工具类，可生成二维码或读取本地二维码图片进行解析。
 
+![](https://github.com/1030310877/QRCodeUtil/blob/master/QRCodeUtil/Gif/qrdemo.gif)
 #Author: Joe Chan, zhk
